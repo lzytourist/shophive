@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+*.env
+*.venv
+Pipfile
+Pipfile.lock
+
+# Django-related
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+*.pyc
+*.pyo
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Testing & Coverage
+.coverage
+htmlcov/
+nosetests.xml
+test_db.sqlite3
