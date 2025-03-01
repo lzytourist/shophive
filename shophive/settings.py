@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3+9b_mx$tsll)x$^*%$t5n)v-b^h7mf-u5j*ga3!5+d&&tdjlg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shophive-gxhabnhzahd5fjan.canadacentral-01.azurewebsites.net', 'localhost', '127.0.0.1']
 
 
 # Application definition
