@@ -35,12 +35,22 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    class Type(models.IntegerChoices):
+        ADMIN = 0, 'Administrator'
+        CUSTOMER = 1, 'Customer'
+        VENDOR = 2, 'Vendor'
+
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=120, blank=True, null=True)
     last_name = models.CharField(max_length=120, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
+    user_type = models.SmallIntegerField(
+        choices=Type.choices,
+        default=Type.CUSTOMER
+    )
+    onboarding_completed = models.BooleanField(default=False)
 
     objects = UserManager()
 
