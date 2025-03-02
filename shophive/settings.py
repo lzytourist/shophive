@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import base64
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3+9b_mx$tsll)x$^*%$t5n)v-b^h7mf-u5j*ga3!5+d&&tdjlg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = ['shophive-gxhabnhzahd5fjan.canadacentral-01.azurewebsites.net', 'localhost', '127.0.0.1']
 
@@ -77,10 +78,28 @@ WSGI_APPLICATION = 'shophive.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+ssl_cert_base64 = os.getenv("AZURE_MYSQL_SSL_CERT")
+ssl_cert_path = "/tmp/DigiCertGlobalRootCA.crt.pem"
+
+if ssl_cert_base64:
+    with open(ssl_cert_path, "wb") as file:
+        file.write(base64.b64decode(ssl_cert_base64))
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'OPTIONS': {
+            'charset': 'utf8',
+            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
+            'ssl': {
+                'ca': ssl_cert_path,
+                'ssl-mode': 'require'
+            },
+        }
     }
 }
 
